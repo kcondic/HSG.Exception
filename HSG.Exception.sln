@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2011
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSG.Exception.Web", "HSG.Exception.Web\HSG.Exception.Web.csproj", "{CFA86029-A467-4649-9349-4B0A26943450}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFA86029-A467-4649-9349-4B0A26943450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFA86029-A467-4649-9349-4B0A26943450}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFA86029-A467-4649-9349-4B0A26943450}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFA86029-A467-4649-9349-4B0A26943450}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58BB2E47-B0D2-4844-9B8D-F0C569EB7971}
+	EndGlobalSection
+EndGlobal
