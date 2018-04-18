@@ -3,7 +3,6 @@
 namespace HSG.Exception.Web.Controllers
 {
     [Route("api/test")]
-    [Authorize]
     public class TestController : ApiController
     {
         [HttpGet]

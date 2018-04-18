@@ -46,7 +46,6 @@ namespace HSG.Exception.Web
 
         private void ConfigureOAuthTokenConsumption(IAppBuilder app)
         {
-
             var issuer = ConfigurationManager.AppSettings["as:Issuer"];
             var audienceId = ConfigurationManager.AppSettings["as:AudienceId"];
             var audienceSecret = TextEncodings.Base64Url.Decode(ConfigurationManager.AppSettings["as:AudienceSecret"]);
@@ -68,14 +67,12 @@ namespace HSG.Exception.Web
         {
             config.MapHttpAttributeRoutes();
 
+            //Enable CORS to allow frontend/backend communication
             var cors = new EnableCorsAttribute("http://localhost:8080,http://localhost:62517", "*", "*");
             config.EnableCors(cors);
-
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+            
+            //Apply the authorize attribute globally
+            config.Filters.Add(new AuthorizeAttribute());
         }
     }
 }
