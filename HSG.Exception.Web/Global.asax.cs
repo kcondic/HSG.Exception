@@ -1,5 +1,4 @@
 ﻿using System.Web;
-using System.Web.Http;
 
 namespace HSG.Exception.Web
 {
@@ -7,7 +6,6 @@ namespace HSG.Exception.Web
     {
         protected void Application_Start()
         {
-            GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }
 }
