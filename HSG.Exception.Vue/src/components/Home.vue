@@ -11,7 +11,7 @@
 
 <script>
 import axios from 'axios';
-const API_URL = 'http://localhost:62517/api/';
+import {API_URL} from '../constants';
 
 export default {
   name: 'Home',
@@ -21,8 +21,8 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {            
-      axios.get(API_URL + 'test', {crossDomain: true})
+    handleSubmit: function() {            
+      axios.get(API_URL + 'test')
             .then(response => {
               this.number = response.data;
             });

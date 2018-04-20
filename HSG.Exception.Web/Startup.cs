@@ -1,13 +1,12 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
+using System.Linq;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using HSG.Exception.Web.Providers;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.Jwt;
-using Microsoft.Owin.Security.OAuth;
 using Owin;
 
 [assembly: OwinStartup(typeof(HSG.Exception.Web.Startup))]
@@ -19,32 +18,12 @@ namespace HSG.Exception.Web
         {
             var httpConfig = new HttpConfiguration();
 
-            ConfigureOAuthTokenGeneration(app);
-            ConfigureOAuthTokenConsumption(app);
+            ConfigureJwtTokenConsumption(app);
             ConfigureWebApi(httpConfig);
             app.UseWebApi(httpConfig);
         }
 
-        private void ConfigureOAuthTokenGeneration(IAppBuilder app)
-        {
-            app.CreatePerOwinContext(ExceptionDbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-
-            var oAuthServerOptions = new OAuthAuthorizationServerOptions()
-            {
-                //For Dev enviroment only (on production should be AllowInsecureHttp = false)
-                AllowInsecureHttp = true,
-                TokenEndpointPath = new PathString("/oauth/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new CustomOAuthProvider(),
-                AccessTokenFormat = new CustomJwtFormat()
-            };
-
-            // OAuth 2.0 Bearer Access Token Generation
-            app.UseOAuthAuthorizationServer(oAuthServerOptions);
-        }
-
-        private void ConfigureOAuthTokenConsumption(IAppBuilder app)
+        private void ConfigureJwtTokenConsumption(IAppBuilder app)
         {
             var issuer = ConfigurationManager.AppSettings["as:Issuer"];
             var audienceId = ConfigurationManager.AppSettings["as:AudienceId"];
@@ -68,10 +47,10 @@ namespace HSG.Exception.Web
             config.MapHttpAttributeRoutes();
 
             //Enable CORS to allow frontend/backend communication
-            var cors = new EnableCorsAttribute("http://localhost:8080,http://localhost:62517", "*", "*");
+            var cors = new EnableCorsAttribute("http://localhost:8080", "*", "*");
             config.EnableCors(cors);
-            
-            //Apply the authorize attribute globally
+
+            //Apply the [Authorize] attribute globally
             config.Filters.Add(new AuthorizeAttribute());
         }
     }
