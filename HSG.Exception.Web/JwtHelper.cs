@@ -20,9 +20,9 @@ namespace HSG.Exception.Web
             {
                 {"iss", issuer},
                 {"aud", audienceId},
-                {"exp", (currentSeconds + 3600).ToString(CultureInfo.InvariantCulture) },
+                {"exp", (currentSeconds + 30).ToString(CultureInfo.InvariantCulture) },
                 {"userid", userToGenerateFor.Id.ToString()},
-                {"fullname", $"{userToGenerateFor.FirstName} {userToGenerateFor.LastName}"},
+                {"fullname", $"{userToGenerateFor.FirstName} {userToGenerateFor.LastName}"}
             };
 
             return JWT.Encode(payload, Encoding.UTF8.GetBytes(secret), JwsAlgorithm.HS256);

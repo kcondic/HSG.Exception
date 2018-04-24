@@ -1,8 +1,10 @@
 ﻿using System.Configuration;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.ExceptionHandling;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataHandler.Encoder;
@@ -27,7 +29,7 @@ namespace HSG.Exception.Web
         {
             var issuer = ConfigurationManager.AppSettings["as:Issuer"];
             var audienceId = ConfigurationManager.AppSettings["as:AudienceId"];
-            var audienceSecret = TextEncodings.Base64Url.Decode(ConfigurationManager.AppSettings["as:AudienceSecret"]);
+            var audienceSecret = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings["as:AudienceSecret"]);
 
             // Api controllers with an [Authorize] attribute will be validated with JWT
             app.UseJwtBearerAuthentication(

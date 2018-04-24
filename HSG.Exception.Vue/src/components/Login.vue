@@ -10,7 +10,7 @@
 
 <script>
 import axios from 'axios';
-import {API_URL} from '../constants'
+import {API_URL} from '../constants';
 
 export default {
   name: 'Home',
@@ -28,7 +28,7 @@ export default {
                 password: this.password
             })
             .then(response => {
-              localStorage.setItem("token", response.data);
+              localStorage.setItem('token', response.data);
               this.$router.push('home');
             })
             .catch(error => {

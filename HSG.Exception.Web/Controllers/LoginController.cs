@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
 using HSG.Exception.DAL.Repositories;
+using Jose;
 using Newtonsoft.Json.Linq;
 
 namespace HSG.Exception.Web.Controllers
@@ -34,6 +35,14 @@ namespace HSG.Exception.Web.Controllers
             //if (!areCredentialsValid) return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.Unauthorized));
 
             return Ok(JwtHelper.GetJwtToken(user));
+        }
+
+        [HttpPost]
+        [Route("refresh")]
+        public IHttpActionResult GetRefreshToken([FromBody]JObject existingToken)
+        {
+            var bla = JWT.Decode(existingToken["token"].ToObject<string>());
+            return Ok();
         }
     }
 }
