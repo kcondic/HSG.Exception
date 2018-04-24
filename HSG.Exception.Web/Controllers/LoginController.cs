@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 namespace HSG.Exception.Web.Controllers
 {
     [AllowAnonymous]
-    [Route("api/login")]
+    [RoutePrefix("api/login")]
     public class LoginController : ApiController
     {
         public LoginController()
@@ -20,6 +20,7 @@ namespace HSG.Exception.Web.Controllers
         private readonly UserRepository _userRepository;
 
         [HttpPost]
+        [Route("")]
         public IHttpActionResult Login([FromBody]JObject userCredentials)
         {
             if (userCredentials["userName"] == null || userCredentials["password"] == null)
@@ -41,7 +42,9 @@ namespace HSG.Exception.Web.Controllers
         [Route("refresh")]
         public IHttpActionResult GetRefreshToken([FromBody]JObject existingToken)
         {
-            var bla = JWT.Decode(existingToken["token"].ToObject<string>());
+            var newToken = JwtHelper.GetRefreshToken(existingToken["token"].ToObject<string>());
+            if(newToken == null)
+                return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.Forbidden));
             return Ok();
         }
     }

@@ -9,8 +9,8 @@ import {API_URL} from './constants';
 Vue.use(axios);
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 axios.interceptors.response.use(response => {
-    return;
-  }, function(error) {
+    return response;
+  }, error => {
     let originalRequest = error.config;
     if(error.response && error.response.status === 401 && !originalRequest._retry && localStorage.getItem('token'))
     {

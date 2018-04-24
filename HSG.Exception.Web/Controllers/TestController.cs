@@ -2,10 +2,11 @@
 
 namespace HSG.Exception.Web.Controllers
 {
-    [Route("api/test")]
+    [RoutePrefix("api/test")]
     public class TestController : ApiController
     {
         [HttpGet]
+        [Route("")]
         public int GetNumberFive()
         {
             return 5;
