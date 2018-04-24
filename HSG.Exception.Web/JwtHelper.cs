@@ -4,8 +4,11 @@ using System.Configuration;
 using System.Globalization;
 using System.IdentityModel.Tokens;
 using System.Text;
+using System.Web.Helpers;
 using HSG.Exception.DAL;
 using Jose;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace HSG.Exception.Web
 {
@@ -32,6 +35,8 @@ namespace HSG.Exception.Web
         public static string GetRefreshToken(string existingToken)
         {
             var decodedToken = JWT.Decode(existingToken, Secret);
+            var decodedJObject = (JObject)JsonConvert.DeserializeObject(decodedToken);
+            var expiryTime = decodedJObject["exp"].ToObject<string>();
             return null;
         }
     }
