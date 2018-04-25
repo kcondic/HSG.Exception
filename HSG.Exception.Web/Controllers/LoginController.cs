@@ -26,8 +26,8 @@ namespace HSG.Exception.Web.Controllers
             if (userCredentials["userName"] == null || userCredentials["password"] == null)
                 return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.NotFound));
 
-            var userName = userCredentials["userName"].ToObject<string>();
-            var password = userCredentials["password"].ToObject<string>();
+            var userName = userCredentials["userName"].ToString();
+            var password = userCredentials["password"].ToString();
 
             var user = _userRepository.GetByUserName(userName);
             if (user == null) return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.NotFound));
@@ -45,7 +45,7 @@ namespace HSG.Exception.Web.Controllers
             var newToken = JwtHelper.GetRefreshToken(existingToken["token"].ToObject<string>());
             if(newToken == null)
                 return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.Forbidden));
-            return Ok();
+            return Ok(newToken);
         }
     }
 }

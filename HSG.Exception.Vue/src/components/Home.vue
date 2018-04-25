@@ -23,9 +23,9 @@ export default {
   methods: {
     handleSubmit: function() {            
       axios.get(API_URL + 'test')
-            .then(response => {
-              this.number = response.data;
-            });
+        .then(response => {
+            this.number = response.data;
+        });
     }
   }  
 }

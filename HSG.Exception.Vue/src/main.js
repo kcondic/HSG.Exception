@@ -7,7 +7,15 @@ import router from './router';
 import {API_URL} from './constants';
 
 Vue.use(axios);
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+
+axios.interceptors.request.use(config => {
+    config.headers.authorization = `Bearer ${localStorage.getItem('token')}`;
+    return config;
+  },
+  error => {
+    Promise.reject(error);
+});
+
 axios.interceptors.response.use(response => {
     return response;
   }, error => {
@@ -15,22 +23,23 @@ axios.interceptors.response.use(response => {
     if(error.response && error.response.status === 401 && !originalRequest._retry && localStorage.getItem('token'))
     {
       originalRequest._retry = true;
-      axios.post(API_URL + 'login/refresh', 
+      return axios.post(API_URL + 'login/refresh', 
       {
         token: localStorage.getItem('token')
       }).then(response => {
-        console.log(response);
         localStorage.setItem('token', response.data);
-        axios(originalRequest);
+        return axios(originalRequest);
       });
     }
-    else if(error.response && error.response.status === 401)
+    else if(error.response && error.response.status === 403)
     {
       localStorage.removeItem('token');
       window.location.href = '/';
+      return;
     }
+    Promise.reject(error);
 });
-
+ 
 
 Vue.config.productionTip = false;
 /* eslint-disable no-new */
