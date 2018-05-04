@@ -9,14 +9,14 @@ namespace HSG.Exception.Web
         private const int HashSize = 20;
         private const int NumberOfIterations = 1000;
 
-        public static string Hash(string password, int iterations)
+        public static string Hash(string password)
         {
             //create salt
             byte[] salt;
             new RNGCryptoServiceProvider().GetBytes(salt = new byte[SaltSize]);
 
             //create hash
-            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations);
+            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, NumberOfIterations);
             var hash = pbkdf2.GetBytes(HashSize);
 
             //combine salt and hash
@@ -26,11 +26,6 @@ namespace HSG.Exception.Web
 
             //convert to base64
             return Convert.ToBase64String(hashBytes);
-        }
-
-        public static string Hash(string password)
-        {
-            return Hash(password, NumberOfIterations);
         }
 
         public static bool ValidatePassword(string password, string hashedPassword)

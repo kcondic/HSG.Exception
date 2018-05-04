@@ -24,9 +24,10 @@ namespace HSG.Exception.Web
             {
                 {"iss", issuer},
                 {"aud", audienceId},
-                {"exp", (currentSeconds + 30).ToString(CultureInfo.InvariantCulture) },
+                {"exp", (currentSeconds + 10000).ToString(CultureInfo.InvariantCulture) },
                 {"userid", userToGenerateFor.Id.ToString()},
-                {"fullname", $"{userToGenerateFor.FirstName} {userToGenerateFor.LastName}"}
+                {"fullname", $"{userToGenerateFor.FirstName} {userToGenerateFor.LastName}"},
+                {"roles", $"{userToGenerateFor.Role}"}
             };
 
             return JWT.Encode(payload, Secret, JwsAlgorithm.HS256);
@@ -39,16 +40,17 @@ namespace HSG.Exception.Web
             var currentSeconds = Math.Round(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds);
             var expiryTime = decodedJObjectToken["exp"].ToObject<double>();
 
-            if(currentSeconds - expiryTime > 30)
+            if(currentSeconds - expiryTime > 10000)
                 return null;
 
             var payload = new Dictionary<string, string>
             {
                 {"iss", decodedJObjectToken["iss"].ToString() },
                 {"aud", decodedJObjectToken["aud"].ToString()},
-                {"exp", (currentSeconds + 30).ToString(CultureInfo.InvariantCulture) },
+                {"exp", (currentSeconds + 10000).ToString(CultureInfo.InvariantCulture) },
                 {"userid", decodedJObjectToken["userid"].ToString()},
-                {"fullname", decodedJObjectToken["fullname"].ToString()}
+                {"fullname", decodedJObjectToken["fullname"].ToString()},
+                {"roles", decodedJObjectToken["Roles"].ToString()}
             };
 
             return JWT.Encode(payload, Secret, JwsAlgorithm.HS256);

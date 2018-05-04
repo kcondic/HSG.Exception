@@ -32,8 +32,8 @@ namespace HSG.Exception.Web.Controllers
             var user = _userRepository.GetByUserName(userName);
             if (user == null) return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.NotFound));
 
-            //var areCredentialsValid = HashHelper.ValidatePassword(password, user.Password);
-            //if (!areCredentialsValid) return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.Unauthorized));
+            var areCredentialsValid = HashHelper.ValidatePassword(password, user.Password);
+            if (!areCredentialsValid) return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.Unauthorized));
 
             return Ok(JwtHelper.GetJwtToken(user));
         }
